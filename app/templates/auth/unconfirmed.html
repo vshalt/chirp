@@ -1,0 +1,6 @@
+{% extends 'base.html' %}
+{% block page_content %}
+<h1>Hello Stranger,</h1>
+<p>To continue you need to click on the email sent to you.To confirm, click on the link sent to you. If the mail is not visible in your inbox, check your spam folder</p>
+<p>Need another email? <a href="{{ url_for('auth.resend_confirmation') }}">Click here</a></p>
+{% endblock page_content %}

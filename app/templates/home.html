@@ -1,0 +1,22 @@
+{% extends "base.html" %}
+{% import 'bootstrap/wtf.html' as wtf %}
+{% import '_macro.html' as macro %}
+{% block title %}Chirp{% endblock %}
+{% block page_content %}
+{% if current_user.can(Permission.WRITE) %}
+    <div><h1>Hello {{ current_user.username }}!</h1></div>
+    {{ wtf.quick_form(form) }}
+{% endif %}
+<div>
+    {% if current_user.is_authenticated %}
+    <ul>
+        <li><a href="{{ url_for('main.show_all') }}">All</a></li>
+        <li><a href="{{ url_for('main.show_follow') }}">Followed</a></li>
+    </ul>
+    {% endif %}
+</div>
+{% include '_posts.html' %}
+<div>
+{{ macro.pagination_widget(pagination, 'main.home') }}
+</div>
+{% endblock page_content %}

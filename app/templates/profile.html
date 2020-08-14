@@ -1,0 +1,50 @@
+{% extends 'base.html' %}
+{% block nav_authenticated %}
+    <a href="{{ url_for('auth.update_email') }}">Change Email</a>
+    <a href="{{ url_for('auth.update_username') }}">Change Username</a>
+    <a href="{{ url_for('auth.update_password') }}">Change Password</a>
+{% endblock nav_authenticated %}
+{% block page_content %}
+    <h1>Personal Details</h1>
+    <img src="{{ user.gravatar(size=256) }}">
+    <h2>{{ user.username }}</h2>
+    {% if current_user.can(Permission.FOLLOW) and user != current_user %}
+        {% if not current_user.is_following(user) %}
+            <a href="{{ url_for('main.follow', username=user.username) }}">Follow</a>
+        {% else %}
+            <a href="{{ url_for('main.unfollow', username=user.username) }}">Unfollow</a>
+        {% endif %}
+    {% endif %}
+    <p>
+    {% if user.name or user.location %}
+        {% if user.name %}{{ user.name }}{% endif %}
+        {% if user.location %}
+        From: <a href="http://maps.google.com/?q={{ user.location }}">{{ user.location }}</a>
+        {% endif %}
+    {% endif %}
+    </p>
+    {% if current_user.is_administrator() %}
+    <p><a href="mailto:{{ user.email }}"></a>{{ user.email }}</p>
+    {% endif %}
+    {% if user.about_me %}{{ user.about_me }}{% endif %}
+    <p>
+        Member since {{ moment(user.member_since).format('L') }}.
+        Last seen {{ moment(user.last_seen).fromNow() }}.
+    </p>
+    {% if current_user.can(Permission.FOLLOW) and user != current_user %}
+    {% if not current_user.is_following(user) %}
+        <a href="{{ url_for('main.follow', username=user.username) }}">Follow</a>
+    {% else %}
+        <a href="{{ url_for('main.unfollow', username=user.username) }}">Unfollow</a>
+    {% endif %}
+    {% endif %}
+    <a href="{{ url_for('main.followers', username=user.username) }}">Followers: <span>{{ user.followers.count() - 1}}<span></a>
+    <a href="{{ url_for('main.followed_by', username=user.username) }}">Following: <span>{{ user.followed.count() - 1 }}</span></a>
+    {% if current_user.is_authrnticated and user != current_user and user.is_following(current_user) %}
+        <span>Follows you</span>
+    {% endif %}
+    <h3>Posts by {{ user.username }}</h3>
+    {% include '_posts.html' %}
+{% endblock page_content %}
+
+

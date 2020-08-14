@@ -1,0 +1,7 @@
+Dear {{ user.username }},
+
+Please click on the following link to confirm your account
+{{ url_for('auth.confirm', token=token, _external=True) }}
+
+Sincerely,
+The Chirp Team

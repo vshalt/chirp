@@ -1,0 +1,7 @@
+Dear user,
+Your request for updating your account as been accepted
+Click on the link below to login to your account
+
+
+{{ url_for('auth.update_email_token', token=token, _external=True) }}
+

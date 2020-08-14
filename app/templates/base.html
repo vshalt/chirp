@@ -1,0 +1,48 @@
+{% extends "bootstrap/base.html" %}
+
+{% block title %}Chirp{% endblock %}
+
+{% block head %}
+{{ super() }}
+{% endblock %}
+
+{% block navbar %}
+    <nav class="navbar navbar-inverse">
+        <div class="container">
+            <a href="{{ url_for('main.home') }}">Chirp</a>
+            <a href="{{ url_for('main.home') }}">Home</a>
+            {% if current_user.is_authenticated %}
+                {% block nav_authenticated %}
+                <a href="{{ url_for('auth.logout') }}">Logout</a>
+                <a href="{{ url_for('main.profile', username=current_user.username) }}">Profile</a>
+                {% endblock %}
+            {% else %}
+                <a href="{{ url_for('auth.register') }}">Register</a>
+                <a href="{{ url_for('auth.login') }}">Login</a>
+            {% endif %}
+            {% if current_user.can(Permission.MODERATE) %}
+                <a href="{{ url_for('main.moderate') }}">Moderate Comments</a>
+            {% endif %}
+            {% if current_user.is_administrator() %}
+                <a href="{{ url_for('main.profile', username=current_user.username) }}">Admin</a>
+            {% endif %}
+        </div>
+    </nav>
+{% endblock navbar %}
+
+{% block content %}
+        {% for message in get_flashed_messages() %}
+        <div>
+            {{ message }}
+        </div>
+        {% endfor %}
+
+    {% block page_content %}{% endblock %}
+{% endblock %}
+
+{% block scripts %}
+{{ super() }}
+{{ moment.include_jquery() }}
+{{ moment.include_moment() }}
+{{ pagedown.html_head() }}
+{% endblock %}

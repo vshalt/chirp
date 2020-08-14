@@ -1,0 +1,6 @@
+<p>Dear user,</p>
+<p>Your request for updating your account as been accepted</p>
+<p>Click on the link below to login to your account</p>
+<p><a href="{{ url_for('auth.update_email_token', token=token, _external=True) }}">Click here</a></p>
+<p>or copy this link into your browser</p>
+<p>{{ url_for('auth.update_email_token', token=token, _external=True) }}</p>

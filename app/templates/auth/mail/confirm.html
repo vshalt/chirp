@@ -1,0 +1,10 @@
+<b>Dear User,</b>
+
+<p>Please click on the following link to confirm your account</p>
+<p><a href="{{ url_for('auth.confirm', token=token, _external=True) }}">Click here</a>to log in</p>
+
+<p>OR copy this in your browser</p>
+{{ url_for('auth.confirm', token=token, _external=True) }}
+
+Sincerely,
+The Chirp Team

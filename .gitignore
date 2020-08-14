@@ -1,0 +1,6 @@
+.env
+.progress
+*.sublime-project
+*.sublime-workspace
+__pycache__
+*.db
