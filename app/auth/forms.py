@@ -4,6 +4,7 @@ from wtforms.validators import DataRequired, Email, Length, EqualTo, Regexp
 from app.models import User
 
 
+# DONE
 class RegisterForm(FlaskForm):
     email               = StringField('Email', validators=[DataRequired(), Email(), Length(1, 64)])
     username            = StringField('Username', validators=[DataRequired(), Length(min=3, max=20), Regexp('^[a-zA-Z][a-zA-Z0-9_.]*$', flags=0, message='Can contain letters, numbers and _ .')])

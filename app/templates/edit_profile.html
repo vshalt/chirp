@@ -1,10 +1,30 @@
 {% extends 'base.html' %}
-{% import 'bootstrap/wtf.html' as wtf  %}
+{% form '_element.html' as element %}
 {% block page_content %}
     <div>
         <h1>Edit Profile</h1>
     </div>
-    <div>
-        {{ wtf.quick_form(form) }}
-    </div>
+    {% if not admin %}
+    <form action="" method="POST" accept-charset="utf-8">
+      {{ form.hidden_tag() }} 
+      {{ element(form.name) }} 
+      {{ element(form.location) }} 
+      {{ element(form.about_me) }} 
+      {{ form.submit() }}
+    </form>
+    {% endif %}
+
+    {% if admin %}
+    <form action="" method="POST" accept-charset="utf-8">
+      {{ form.hidden_tag() }} 
+      {{ element(form.name) }}
+      {{ element(form.username) }}
+      {{ element(form.email) }}
+      {{ element(form.role) }}
+      {{ element(form.location) }}
+      {{ element(form.about_me) }}
+      {{ element(form.confirmed) }}
+      {{ form.submit() }}
+    </form>
+    {% endif %}
 {% endblock page_content %}

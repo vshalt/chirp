@@ -1,0 +1,15 @@
+{% macro element(field) %}
+<div>
+  {{ field.label }}
+  {% if field.errors %}
+    {{ field }}
+    <div>
+    {% for error in field.errors %}
+      <span>{{ error }}</span> 
+    {% endfor %}
+    </div>
+    {% else %}
+      {{ field }}
+  {% endif %}
+</div>
+{% endmacro %}

@@ -1,21 +1,22 @@
 import os
 basedir = os.path.abspath(os.path.dirname(__file__))
+print(basedir)
 
 
 class Config:
-    SECRET_KEY = 'hard to guess string'
-    SQLALCHEMY_TRACK_MODIFICATIONS = False
-    MAIL_SERVER = 'smtp.googlemail.com'
-    MAIL_PORT = 587
-    MAIL_USE_TLS = True
-    MAIL_USERNAME = os.environ.get('MAIL_USERNAME')
-    MAIL_PASSWORD = os.environ.get('MAIL_PASSWORD')
-    CHIRP_MAIL_SUBJECT_PREFIX = '[Chirp]'
-    CHIRP_MAIL_SENDER = 'Chirp Admin <chirp@example.com>'
-    CHIRP_ADMIN = os.environ.get('CHIRP_ADMIN')
-    POSTS_PER_PAGE = 10
-    FOLLOWERS_PER_PAGE = 50
-    COMMENTS_PER_PAGE = 15
+    SECRET_KEY                      = 'hard to guess string'
+    SQLALCHEMY_TRACK_MODIFICATIONS  = False
+    MAIL_SERVER                     = 'smtp.googlemail.com'
+    MAIL_PORT                       = 587
+    MAIL_USE_TLS                    = True
+    MAIL_USERNAME                   = os.environ.get('MAIL_USERNAME')
+    MAIL_PASSWORD                   = os.environ.get('MAIL_PASSWORD')
+    CHIRP_MAIL_SUBJECT_PREFIX       = '[Chirp]'
+    CHIRP_MAIL_SENDER               = 'Chirp Admin <chirp@example.com>'
+    CHIRP_ADMIN                     = os.environ.get('CHIRP_ADMIN')
+    POSTS_PER_PAGE                  = 10
+    FOLLOWERS_PER_PAGE              = 50
+    COMMENTS_PER_PAGE               = 15
 
     @staticmethod
     def init_app(app):

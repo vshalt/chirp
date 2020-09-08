@@ -1,48 +1,57 @@
-{% extends "bootstrap/base.html" %}
+<!DOCTYPE html>
+<html>
 
-{% block title %}Chirp{% endblock %}
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" integrity="sha384-JcKb8q3iqJ61gNV9KGb8thSsNjpSL0n8PARn9HuZOnIxN0hoP+VmmDGMN5t9UJ0Z" crossorigin="anonymous">
+  <title>
+    {% block title %}Chirp{% endblock %}
+  </title>
+</head>
 
-{% block head %}
-{{ super() }}
-{% endblock %}
+<body>
+  {% block navbar %}
+  <nav class="navbar navbar-dark bg-dark">
+    <ul class="nav">
+      <li class="nav-item"><a class=" navbar-brand nav-link" href="{{ url_for('main.home') }}">Chirp</a></li>
+      <li class="nav-item"><a class="nav-link" href="{{ url_for('main.home') }}">Home</a></li>
+      {% if current_user.is_authenticated %}
+      {% block nav_authenticated %}
+      <li class="nav-item"><a class="nav-link" href="{{ url_for('auth.logout') }}">Logout</a></li>
+      <li class="nav-item"><a class="nav-link" href="{{ url_for('main.profile', username=current_user.username) }}">Profile</a></li>
+      {% endblock %}
+      {% else %}
+      <li class="nav-item"><a class="nav-link" href="{{ url_for('auth.register') }}">Register</a></li>
+      <li class="nav-item"><a class="nav-link" href="{{ url_for('auth.login') }}">Login</a></li>
+      {% endif %}
+      {% if current_user.can(Permission.MODERATE) %}
+      <li class="nav-item"><a class="nav-link" href="{{ url_for('main.moderate') }}">Moderate Comments</a></li>
+      {% endif %}
+      {% if current_user.is_administrator() %}
+      <li class="nav-item"><a class="nav-link" href="{{ url_for('main.profile', username=current_user.username) }}">Admin</a></li>
+      {% endif %}
+    </ul>
+  </nav>
+  {% endblock navbar %}
 
-{% block navbar %}
-    <nav class="navbar navbar-inverse">
-        <div class="container">
-            <a href="{{ url_for('main.home') }}">Chirp</a>
-            <a href="{{ url_for('main.home') }}">Home</a>
-            {% if current_user.is_authenticated %}
-                {% block nav_authenticated %}
-                <a href="{{ url_for('auth.logout') }}">Logout</a>
-                <a href="{{ url_for('main.profile', username=current_user.username) }}">Profile</a>
-                {% endblock %}
-            {% else %}
-                <a href="{{ url_for('auth.register') }}">Register</a>
-                <a href="{{ url_for('auth.login') }}">Login</a>
-            {% endif %}
-            {% if current_user.can(Permission.MODERATE) %}
-                <a href="{{ url_for('main.moderate') }}">Moderate Comments</a>
-            {% endif %}
-            {% if current_user.is_administrator() %}
-                <a href="{{ url_for('main.profile', username=current_user.username) }}">Admin</a>
-            {% endif %}
-        </div>
-    </nav>
-{% endblock navbar %}
+  {% block content %}
+  {% for message in get_flashed_messages() %}
+  <div class="alert alert-primary alert-dismissible fade show">
+    {{ message }}
+  </div>
+  {% endfor %}
 
-{% block content %}
-        {% for message in get_flashed_messages() %}
-        <div>
-            {{ message }}
-        </div>
-        {% endfor %}
+  {% block page_content %}{% endblock %}
+  {% endblock %}
 
-    {% block page_content %}{% endblock %}
-{% endblock %}
+  {{ moment.include_jquery() }}
+  {{ moment.include_moment() }}
+  {{ pagedown.html_head() }}
+  <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>
+  <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js" integrity="sha384-9/reFTGAW83EW2RDu2S0VKaIzap3H66lZH81PoYlFhbGU+6BZp6G7niu735Sk7lN" crossorigin="anonymous"></script>
+  <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js" integrity="sha384-B4gt1jrGC7Jh4AgTPSdUtOBvfO8shuf57BaghqFfPlYxofvL8/KUEfYiJOMMV+rV" crossorigin="anonymous"></script>
+  <footer></footer>
+</body>
 
-{% block scripts %}
-{{ super() }}
-{{ moment.include_jquery() }}
-{{ moment.include_moment() }}
-{{ pagedown.html_head() }}
-{% endblock %}
+</html>

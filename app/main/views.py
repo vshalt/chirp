@@ -107,7 +107,7 @@ def edit_profile():
     form.name.data = current_user.name
     form.location.data = current_user.location
     form.about_me.data = current_user.about_me
-    return render_template('edit_profile.html', form=form)
+    return render_template('edit_profile.html', form=form, admin=False)
 
 
 @main_blueprint.route('/edit-profile/<int:id>', methods=['GET', 'POST'])
@@ -135,7 +135,7 @@ def edit_profile_admin(id):
     form.role.data = user.role_id
     form.about_me.data = user.about_me
     form.location.data = user.location
-    return render_template('edit_profile.html', form=form, user=user)
+    return render_template('edit_profile.html', form=form, user=user, admin=True)
 
 
 @main_blueprint.route('/post/<int:id>', methods=['GET', 'POST'])

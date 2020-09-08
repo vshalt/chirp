@@ -1,13 +1,15 @@
 {% extends 'base.html' %}
 {% import '_macro.html' as macro %}
-{% import 'bootstrap/wtf.html' as wtf %}
 {% block page_content %}
+{% from '_element.html' import element %}
 {% include '_posts.html' %}
     <h4 id="comments">Comments</h4>
 {% if current_user.can(Permission.COMMENT) %}
-    <div class="comment-form">
-        {{ wtf.quick_form(form) }}
-    </div>
+  <form action="" method="POST" accept-charset="utf-8">
+    {{ form.hidden_tag() }} 
+    {{ element(form.body) }}
+    {{ form.submit() }}
+  </form>
 {% endif %}
 {% include '_comments.html' %}
 {% if pagination %}

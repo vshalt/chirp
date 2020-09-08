@@ -1,8 +1,10 @@
 {% extends 'base.html' %}
-{% import 'bootstrap/wtf.html' as wtf %}
+{% from '_element.html' import element %}
 {% block page_content %}
-    <h1>Edit Post</h1>
-    <div>
-        {{ wtf.quick_form(form) }}
-    </div>
+    <h1 class="jumbotron jumbotron-fluid">Edit Post</h1>
+    <form action="" method="POST" accept-charset="utf-8">
+      {{ form.hidden_tag() }} 
+      {{ element(form.body) }}
+      {{ form.submit() }}
+    </form>
 {% endblock page_content %}
