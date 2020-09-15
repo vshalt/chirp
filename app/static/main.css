@@ -1,0 +1,17 @@
+.white{
+    color: white;
+}
+
+.padding20{
+    padding: 20px;
+}
+
+.large{
+    font-size: 30px;
+}
+
+.forms{
+    border: 1px solid red;
+    float: left;
+
+}

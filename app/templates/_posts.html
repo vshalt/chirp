@@ -1,31 +1,37 @@
 <ul>
-{% for post in posts %}
-<li class="card text-white bg-dark mb-3" style="max-width:90%;">
-<div class="card-header">
-    <a href="{{ url_for('main.profile', username=post.author.username) }}"><img src="{{ post.author.gravatar(size=40) }}"></a>
-    <div>{{ moment(post.timestamp).fromNow() }}</div>
-    <div><a href="{{ url_for('main.profile', username=post.author.username) }}">{{ post.author.username }}</a></div>
-</div>
-<div class="card-body">
-    {% if post.body_html %}
-        <div class="card-text">{{ post.body_html | safe }}</div>
-    {% else %}
-        <div class="card-text">{{ post.body }}</div>
-    {% endif %}
-</div>
+    {% for post in posts %}
+    <li class="" style="list-style-type:none; margin: 10px; padding-right: 25px;">
+        <div class="jumbotron jumbotron-fluid" style="padding-top: 10px;">
+            <!-- <ul class="nav" style="padding-left: 20px; padding-bottom: 30px;"> -->
+            <ul class="nav" style="display:flex; display:inline-block; padding-left: 20px;">
+                <li class="">
+                    <a href="{{ url_for('main.profile', username=post.author.username) }}">{{ post.author.username }}</a>
+                </li>
+                <li class="" style="padding-right: 20px"><a href="{{ url_for('main.profile', username=post.author.username) }}"><img src="{{ post.author.gravatar(size=40) }}"></a></li>
+                <div style=""><b>{{ moment(post.timestamp).fromNow() }}</b></div>
+                <hr class="my-4">
+            </ul>
+            <div class="">
+                {% if post.body_html %}
+                <div style="padding: 20px;">{{ post.body_html | safe }}</div>
+                {% else %}
+                <div class="">{{ post.body }}</div>
+                {% endif %}
+            </div>
 
-<ul class="nav">
-    <li class="nav-item"><a class="nav-link" href="{{ url_for('main.post', id=post.id) }}#comments"><span>Comments({{ post.comments.count() }})</span></a></li>
-<li class="nav-item"><a class="nav-link" href="{{url_for('main.post', id=post.id) }}">Link</a></li>
-{% if current_user == post.author %}
-<li class="nav-item"><a class="nav-link" href="{{ url_for('main.edit_post', id=post.id) }}">Edit</a></li>
-{% endif %}
-{%if current_user.can(Permission.ADMIN) %}
-<li class="nav-item"><a class="nav-link" href="{{ url_for('main.edit_post',id=post.id) }}">Edit[ADMIN]</a></li>
-{% endif %}
-</ul>
+            <ul class="nav">
+                <li class="nav-item"><button class="btn btn-dark"><a class="nav-link white" href="{{ url_for('main.post', id=post.id) }}#comments"><span>Comments({{ post.comments.count() }})</span></a></button></li>
+                <li style="padding-left:20px" class="nav-item"><button class="btn btn-dark"><a class="nav-link white" href="{{url_for('main.post', id=post.id) }}">Link</a></li></button>
+                {% if current_user == post.author %}
+                <li class="nav-item"><a class="nav-link" href="{{ url_for('main.edit_post', id=post.id) }}">Edit</a></li>
+                {% endif %}
+                {%if current_user.can(Permission.ADMIN) %}
+                <li class="nav-item"><a class="nav-link" href="{{ url_for('main.edit_post',id=post.id) }}">Edit[ADMIN]</a></li>
+                {% endif %}
+            </ul>
+        </div>
 
 
-</li>
-{% endfor %}
+    </li>
+    {% endfor %}
 </ul>

@@ -1,15 +1,15 @@
 {% macro element(field) %}
-<div>
-  {{ field.label }}
+<div class="form-group" , style="padding-right: 30px; width:400px">
+  {{ field.label() }}
   {% if field.errors %}
-    {{ field }}
-    <div>
+  {{ field }}
+  <div>
     {% for error in field.errors %}
-      <span>{{ error }}</span> 
+    <span>{{ error }}</span>
     {% endfor %}
-    </div>
-    {% else %}
-      {{ field }}
+  </div>
+  {% else %}
+  {{ field(class="form-control form-control-lg") }}
   {% endif %}
 </div>
 {% endmacro %}

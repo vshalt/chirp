@@ -5,33 +5,45 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
   <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" integrity="sha384-JcKb8q3iqJ61gNV9KGb8thSsNjpSL0n8PARn9HuZOnIxN0hoP+VmmDGMN5t9UJ0Z" crossorigin="anonymous">
+  <link rel="stylesheet" href="{{ url_for('static', filename='main.css') }}" type="text/css" media="screen" title="no title" charset="utf-8">
   <title>
     {% block title %}Chirp{% endblock %}
   </title>
+  <style type="text/css" media="screen">
+    .navigation-bar {
+      height: 90px;
+    }
+  </style>
+  {% block head %}{% endblock head %}
 </head>
 
 <body>
   {% block navbar %}
-  <nav class="navbar navbar-dark bg-dark">
-    <ul class="nav">
-      <li class="nav-item"><a class=" navbar-brand nav-link" href="{{ url_for('main.home') }}">Chirp</a></li>
-      <li class="nav-item"><a class="nav-link" href="{{ url_for('main.home') }}">Home</a></li>
-      {% if current_user.is_authenticated %}
-      {% block nav_authenticated %}
-      <li class="nav-item"><a class="nav-link" href="{{ url_for('auth.logout') }}">Logout</a></li>
-      <li class="nav-item"><a class="nav-link" href="{{ url_for('main.profile', username=current_user.username) }}">Profile</a></li>
-      {% endblock %}
-      {% else %}
-      <li class="nav-item"><a class="nav-link" href="{{ url_for('auth.register') }}">Register</a></li>
-      <li class="nav-item"><a class="nav-link" href="{{ url_for('auth.login') }}">Login</a></li>
-      {% endif %}
-      {% if current_user.can(Permission.MODERATE) %}
-      <li class="nav-item"><a class="nav-link" href="{{ url_for('main.moderate') }}">Moderate Comments</a></li>
-      {% endif %}
-      {% if current_user.is_administrator() %}
-      <li class="nav-item"><a class="nav-link" href="{{ url_for('main.profile', username=current_user.username) }}">Admin</a></li>
-      {% endif %}
-    </ul>
+  <nav class="navbar navbar-dark bg-dark navbar-expand-lg sticky-top navigation-bar">
+    <a class=" navbar-brand nav-link large" href="{{ url_for('main.home') }}"><img style=" padding-right: 30px; padding-bottom: 0px" src="static/logo.png" alt="" loading="lazy" class="d-inline-block align-top">CHIRP</a>
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavDropdown" aria-controls="navbarNavDropdown" aria-expanded="false" aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+    <div style="padding: 20px; font-size: large" class="collapse navbar-collapse" id="navbarNavDropdown">
+      <ul class="navbar-nav">
+        <li class="nav-item"><a class="nav-link" href="{{ url_for('main.home') }}">Home</a></li>
+        {% if current_user.is_authenticated %}
+        {% block nav_authenticated %}
+        <li class="nav-item"><a class="nav-link" href="{{ url_for('auth.logout') }}">Logout</a></li>
+        <li class="nav-item"><a class="nav-link" href="{{ url_for('main.profile', username=current_user.username) }}">Profile</a></li>
+        {% endblock %}
+        {% else %}
+        <li class="nav-item"><a class="nav-link" href="{{ url_for('auth.register') }}">Register</a></li>
+        <li class="nav-item"><a class="nav-link" href="{{ url_for('auth.login') }}">Login</a></li>
+        {% endif %}
+        {% if current_user.can(Permission.MODERATE) %}
+        <li class="nav-item"><a class="nav-link" href="{{ url_for('main.moderate') }}">Moderate Comments</a></li>
+        {% endif %}
+        {% if current_user.is_administrator() %}
+        <li class="nav-item"><a class="nav-link" href="{{ url_for('main.profile', username=current_user.username) }}">Admin</a></li>
+        {% endif %}
+      </ul>
+    </div>
   </nav>
   {% endblock navbar %}
 
