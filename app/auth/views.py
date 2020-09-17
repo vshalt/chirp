@@ -152,7 +152,7 @@ def update_email():
 @auth_blueprint.route('/update-email/<token>')
 @login_required
 def update_email_token(token):
-    if User.update_email(token, session.get('new_email')):
+    if current_user.update_email(token):
         db.session.commit()
         flash('Your account credentials has been updated. Login with new email')
         return redirect(url_for('auth.login'))

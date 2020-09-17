@@ -79,7 +79,7 @@ class User(UserMixin, db.Model):
     __tablename__   = 'users'
     id              = db.Column(db.Integer, primary_key=True)
     username        = db.Column(db.String(64), unique=True, index=True)
-    email           = db.Column(db.String(64), unique=True, index=True, nullable=False)
+    email           = db.Column(db.String(64), unique=True, index=True)
     password_hash   = db.Column(db.String(128), nullable=False)
     confirmed       = db.Column(db.Boolean, default=False)
     role_id         = db.Column(db.Integer, db.ForeignKey('roles.id'))
@@ -98,7 +98,7 @@ class User(UserMixin, db.Model):
         user_json = {
             'user_url': url_for('api.get_user', id=self.id),
             'username': self.username,
-            'memeber_since': self.memeber_since,
+            'member_since': self.member_since,
             'last_seen': self.last_seen,
             'posts': url_for('api.get_user_posts', id=self.id),
             'followed_posts': url_for('api.get_user_followed_posts', id=self.id),
@@ -182,24 +182,25 @@ class User(UserMixin, db.Model):
 
     def generate_email_update_token(self, new_email, expiration=3600):
         s = Serializer(current_app.config['SECRET_KEY'], expires_in=expiration)
-        return s.dumps({'update_email': self.id}).decode('utf-8')
+        return s.dumps({'update_email': self.id, 'new_email': new_email}).decode('utf-8')
 
-    @staticmethod
-    def update_email(token, new_email):
+    def update_email(self, token):
         s = Serializer(current_app.config['SECRET_KEY'])
         try:
             data = s.loads(token.encode('utf-8'))
         except:
             return False
-        user = User.query.get(data.get('update_email'))
-        if user is None:
+        if data.get('update_email') != self.id:
             return False
+        new_email = data.get('new_email')
         if new_email is None:
             return False
+        if self.query.filter_by(email=new_email).first() is not None:
+            return False
         else:
-            user.email = new_email
-            user.avatar_hash = user.gravatar_hash()
-            db.session.add(user)
+            self.email = new_email
+            self.avatar_hash = self.gravatar_hash()
+            db.session.add(self)
             return True
 
     def can(self, perm):
