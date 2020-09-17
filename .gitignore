@@ -2,4 +2,4 @@
 .progress
 __pycache__
 *.db
-.python-version
+*.python-version
