@@ -1,5 +1,5 @@
 # chirp
-P.S: This is my first website, drop a star if you liked the project, constructive critisism welcomed!
+P.S: This is my first website, drop a star if you liked the project, constructive criticism welcomed!
 
 **Sections**
 * <a href="#tech">TECH USED</a>
