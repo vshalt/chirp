@@ -1,18 +1,38 @@
 {% extends 'base.html' %}
 {% block nav_authenticated %}
-    <a href="{{ url_for('auth.update_email') }}">Change Email</a>
-    <a href="{{ url_for('auth.update_username') }}">Change Username</a>
-    <a href="{{ url_for('auth.update_password') }}">Change Password</a>
+<li class="nav-item"><a class="nav-link" href="{{ url_for('auth.update_email') }}">Change Email</a></li>
+    <li class="nav-item"><a class="nav-link" href="{{ url_for('auth.update_username') }}">Change Username</a></li>
+        <li class="nav-item"><a class="nav-link" href="{{ url_for('auth.update_password') }}">Change Password</a></li>
 {% endblock nav_authenticated %}
+{% block head %}
+   <style type="text/css" media="screen">
+.body{
+    padding-left: 20px;
+    background-color: silver;
+    margin-right: auto;
+    margin-left: auto;
+    padding-top: 30px;
+    margin-bottom:20px;
+}
+.white{
+    color: white;
+}
+   </style> 
+{% endblock head %}
 {% block page_content %}
+<div class="body">
     <h1>Personal Details</h1>
     <img src="{{ user.gravatar(size=256) }}">
     <h2>{{ user.username }}</h2>
     {% if current_user.can(Permission.FOLLOW) and user != current_user %}
         {% if not current_user.is_following(user) %}
-            <a href="{{ url_for('main.follow', username=user.username) }}">Follow</a>
+        <button class="btn btn-success">
+            <a class="white" href="{{ url_for('main.follow', username=user.username) }}">Follow</a>
+        </button>
         {% else %}
-            <a href="{{ url_for('main.unfollow', username=user.username) }}">Unfollow</a>
+        <button class="btn btn-danger">
+            <a class="white" href="{{ url_for('main.unfollow', username=user.username) }}">Unfollow</a>
+        </button>
         {% endif %}
     {% endif %}
     <p>
@@ -31,20 +51,18 @@
         Member since {{ moment(user.member_since).format('L') }}.
         Last seen {{ moment(user.last_seen).fromNow() }}.
     </p>
-    {% if current_user.can(Permission.FOLLOW) and user != current_user %}
-    {% if not current_user.is_following(user) %}
-        <a href="{{ url_for('main.follow', username=user.username) }}">Follow</a>
-    {% else %}
-        <a href="{{ url_for('main.unfollow', username=user.username) }}">Unfollow</a>
-    {% endif %}
-    {% endif %}
-    <a href="{{ url_for('main.followers', username=user.username) }}">Followers: <span>{{ user.followers.count() - 1}}<span></a>
-    <a href="{{ url_for('main.followed_by', username=user.username) }}">Following: <span>{{ user.followed.count() - 1 }}</span></a>
+    <button class="btn btn-dark">
+    <a class="white" href="{{ url_for('main.followers', username=user.username) }}">Followers: <span>{{ user.followers.count() - 1}}<span></a>
+    </button>
+    <button class="btn btn-dark">
+    <a class="white" href="{{ url_for('main.followed_by', username=user.username) }}">Following: <span>{{ user.followed.count() - 1 }}</span></a>
+    </button>
     {% if current_user.is_authrnticated and user != current_user and user.is_following(current_user) %}
         <span>Follows you</span>
     {% endif %}
     <h3>Posts by {{ user.username }}</h3>
     {% include '_posts.html' %}
+</div>
 {% endblock page_content %}
 
 

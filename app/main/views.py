@@ -147,7 +147,7 @@ def post(id):
         db.session.add(comment)
         db.session.commit()
         flash('Commented on post')
-        return redirect(url_for('main.post', id=post.id, page=-1))
+        return redirect(url_for('main.home'))
     page = request.args.get('page', 1, type=int)
     if page == -1:
         page = (post.comments.count() - 1) // current_app.config['COMMENTS_PER_PAGE'] + 1

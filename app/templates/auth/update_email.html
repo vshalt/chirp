@@ -1,13 +1,24 @@
 {% extends 'base.html' %}
 {% from '_element.html' import element %}
+{% block head %}
+ <style type="text/css" media="screen">
+#form{
+background-color: silver;
+margin-right: auto;
+margin-left: auto;
+}
+ </style> 
+{% endblock head %}
 {% block page_content %}
-    <div>
+<div id="form">
+    <div class="padding20">
         <h1>Update Email</h1>
     </div>
-    <form action="" method="POST" accept-charset="utf-8">
+    <form style="padding-left: 40px;" action="" method="POST" accept-charset="utf-8">
       {{ form.hidden_tag() }}
       {{ element(form.email) }} 
       {{ element(form.password) }} 
-      {{ form.submit() }}
+      {{ form.submit(class="btn btn-primary") }}
     </form>
+</div>
 {% endblock page_content %}

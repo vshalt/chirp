@@ -1,7 +1,17 @@
 {% extends 'base.html' %}
 {% from '_element.html' import element %}
 {% block title %}Login{% endblock title %}
+{% block head %}
+<style type="text/css" media="screen">
+#form{
+background-color: silver;
+margin-right: auto;
+margin-left: auto;
+}
+</style>
+{% endblock head %}
 {% block page_content %}
+<div id="form">
 <div class="padding20">
     <h1>Login</h1>
 </div>
@@ -16,5 +26,6 @@
   {{ form.submit(class="btn btn-dark") }}
 </form>
 <div class="padding20"><small style="display:block;">Forgot Password? <a href="{{ url_for('auth.reset_password_request') }}">Click here</a></small>
-<small>Don't have an account? <a href="{{ url_for('auth.register') }}">Sign Up</a></small></div>
+<small>Do not have an account? <a href="{{ url_for('auth.register') }}">Sign Up</a></small></div>
+</div>
 {% endblock page_content %}
